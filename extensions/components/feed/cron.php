@@ -6,7 +6,7 @@ use engine\system;
 
 class cron_feed {
     protected static $instance = null;
-    const UPDATE_INTERVAL = 600; // 10 min (10 * 60)
+    const UPDATE_INTERVAL = 1200; // 10 min (10 * 60)
 
     public static function getInstance() {
         if(is_null(self::$instance))
@@ -33,14 +33,9 @@ class cron_feed {
             }
 
             // check version of xml document (1.0 / 2.0 support)
-            $dom = new DOMDocument();
-            $dom->loadXML($data);
+            $xml = simplexml_load_string($data);
 
-            $xml_version = (string)$dom->{'version'};
-
-            $xml = simplexml_import_dom($dom);
-
-            if($xml_version == '2.0' || $xml_version == '2' || system::getInstance()->prefixEquals($xml_version, '2')) {
+            if(is_object($xml->channel->item)) {
                 foreach($xml->channel->item as $item) {
                     $url = (string)$item->{'link'};
                     if($url == null)
@@ -60,7 +55,7 @@ class cron_feed {
                         'category' => $feed['id']
                     );
                 }
-            } elseif($xml_version == '1.0') {
+            } elseif(is_object($xml->entry)) {
                 foreach($xml->entry as $item) {
                     $title = (string)$item->{'title'};
                     $desc = (string)$item->{'summary'};

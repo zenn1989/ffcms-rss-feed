@@ -149,7 +149,7 @@ class components_feed_front {
             'channel_id' => $result['target_list']
         );
         meta::getInstance()->add('title', $params['rssfeed']['item_title']);
-        meta::getInstance()->add('description', $params['rssfeed']['item_desc']);
+        meta::getInstance()->add('description', system::getInstance()->sentenceSub($params['rssfeed']['item_desc'], 250));
         return template::getInstance()->twigRender('components/feed/item.tpl', $params);
     }
 

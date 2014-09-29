@@ -39,6 +39,14 @@ class components_feed_back {
         }
         template::getInstance()->set(template::TYPE_CONTENT, 'body', $content);
     }
+	
+	public function _version() {
+        return '1.0.1';
+    }
+
+    public function _compatable() {
+        return '2.0.2';
+    }
 
     private function viewSettings() {
         $params = array();
@@ -279,7 +287,7 @@ class components_feed_back {
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
         ");
         $cfgs = 'a:1:{s:13:"item_per_page";s:2:"10";}';
-        $stmt = database::getInstance()->con()->prepare("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `configs` = ? WHERE `type` = 'components' AND `dir` = 'feed'");
+        $stmt = database::getInstance()->con()->prepare("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `configs` = ?, `version` = '1.0.1', `compatable` = '2.0.2' WHERE `type` = 'components' AND `dir` = 'feed'");
         $stmt->bindParam(1, $cfgs, \PDO::PARAM_STR);
         $stmt->execute();
         $stmt = null;

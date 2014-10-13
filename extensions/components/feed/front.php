@@ -138,12 +138,18 @@ class components_feed_front {
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         $stmt = null;
         $channel_title = unserialize($result['title']);
+        $item_image = null;
+
+        if(file_exists(root . '/upload/feed/poster_' . $item_id . '.jpg'))
+            $item_image = 'upload/feed/poster_' . $item_id . '.jpg';
+
         $params['rssfeed'] = array(
             'item_id' => $item_id,
             'item_title' => $result['item_title'],
             'item_desc' => system::getInstance()->nohtml(html_entity_decode($result['item_desc'], ENT_NOQUOTES, 'UTF-8')),
             'item_fulltext' => system::getInstance()->nohtml(html_entity_decode($result['fulltext'], ENT_NOQUOTES, 'UTF-8')),
             'item_date' => system::getInstance()->toDate($result['item_date'], 'h'),
+            'item_image' => $item_image,
             'source_url' => $result['source_url'],
             'channel_title' => $channel_title[language::getInstance()->getUseLanguage()],
             'channel_id' => $result['target_list']

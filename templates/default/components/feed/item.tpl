@@ -11,6 +11,9 @@
         <span><i class="fa fa-calendar"></i>{{ rssfeed.item_date }}</span>
         <span><i class="fa fa-arrow-right"></i><a href="{{ rssfeed.source_url }}" target="_blank">{{ rssfeed.source_url }}</a></span>
     </div>
+    {% if rssfeed.item_image != null %}
+    <img src="{{ system.script_url }}/{{ rssfeed.item_image }}" alt="{{ rssfeed.item_title }}" class="img-responsive" style="display: table;margin: 0 auto;" />
+    {% endif %}
     {% if rssfeed.item_fulltext|length > 0 %}
     <p>{{ rssfeed.item_fulltext|replace({"\n":"</p><p>"}) }}</p> {# replace - change new lines to html paragraph tag - close & open #}
     {% else %}

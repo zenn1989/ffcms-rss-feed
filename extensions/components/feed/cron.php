@@ -4,15 +4,9 @@ use engine\database;
 use engine\property;
 use engine\system;
 
-class cron_feed {
-    protected static $instance = null;
-    const UPDATE_INTERVAL = 1200; // 10 min (10 * 60)
+class cron_feed extends engine\singleton {
 
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
+    const UPDATE_INTERVAL = 1200; // 10 min (10 * 60)
 
     public function make() {
         $time_diff = time() - self::UPDATE_INTERVAL;

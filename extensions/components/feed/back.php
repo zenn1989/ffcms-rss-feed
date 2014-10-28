@@ -8,15 +8,7 @@ use engine\admin;
 use engine\language;
 use engine\extension;
 
-class components_feed_back {
-
-    protected static $instance = null;
-
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
+class components_feed_back extends engine\singleton {
 
     public function make() {
         $content = null;
@@ -40,8 +32,18 @@ class components_feed_back {
         template::getInstance()->set(template::TYPE_CONTENT, 'body', $content);
     }
 	
+	public function _accessData() {
+        return array(
+            'admin/components/feed',
+            'admin/components/feed/edit',
+            'admin/components/feed/add',
+            'admin/components/feed/delete',
+            'admin/components/feed/settings'
+        );
+    }
+	
 	public function _update($from) {
-		database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.3' WHERE `type` = 'components' AND `dir` = 'feed'");
+		database::getInstance()->con()->query("UPDATE ".property::getInstance()->get('db_prefix')."_extensions SET `version` = '1.0.1', `compatable` = '2.0.4' WHERE `type` = 'components' AND `dir` = 'feed'");
 	}
 	
 	public function _version() {
@@ -49,7 +51,7 @@ class components_feed_back {
     }
 
     public function _compatable() {
-        return '2.0.3';
+        return '2.0.4';
     }
 
     private function viewSettings() {
@@ -194,7 +196,7 @@ class components_feed_back {
         return template::getInstance()->twigRender('components/feed/list.tpl', $params);
     }
 
-    public function install() {
+    public function _install() {
         $lang_ru = array(
             'ru' => array(
                 'front' => array(

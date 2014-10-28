@@ -9,16 +9,9 @@ use engine\language;
 use engine\extension;
 use engine\meta;
 
-class components_feed_front {
+class components_feed_front extends engine\singleton {
 
-    protected static $instance = null;
     const ITEM_PER_PAGE = 10;
-
-    public static function getInstance() {
-        if(is_null(self::$instance))
-            self::$instance = new self();
-        return self::$instance;
-    }
 
     public function make() {
         $way = router::getInstance()->shiftUriArray();
